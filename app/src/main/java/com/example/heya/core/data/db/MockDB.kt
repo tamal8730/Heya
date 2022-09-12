@@ -5,7 +5,6 @@ import com.example.heya.feature_chat.model.MessageModel
 import com.example.heya.feature_find_peer.model.UserModel
 import java.util.*
 
-
 object MockDB {
 
     const val myUserName = "tamal"

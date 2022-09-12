@@ -6,20 +6,22 @@ import com.example.heya.core.util.TimestampFormatter
 class DateTimeFormatter : TimestampFormatter {
 
     companion object {
-        private val months = listOf(
-            "jan",
-            "feb",
-            "mar",
-            "apr",
-            "may",
-            "jun",
-            "jul",
-            "aug",
-            "sep",
-            "oct",
-            "nov",
-            "dec"
-        )
+        private val months by lazy {
+            listOf(
+                "jan",
+                "feb",
+                "mar",
+                "apr",
+                "may",
+                "jun",
+                "jul",
+                "aug",
+                "sep",
+                "oct",
+                "nov",
+                "dec"
+            )
+        }
     }
 
     private fun date(dateTime: DateTime): String = "${dateTime.day} ${months[dateTime.month]}"
@@ -31,9 +33,14 @@ class DateTimeFormatter : TimestampFormatter {
         return "$hourIn12Hr:${dateTime.minute} $amOrPm"
     }
 
+    private fun isToday(dateTime: DateTime): Boolean {
+        val now = DateTime.now()
+        return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day
+    }
+
     override fun format(timestamp: String): String {
         val dateTime = DateTime.parseISO8601Timestamp(timestamp)
-        return "${date(dateTime)}, ${time(dateTime)}"
+        return if (isToday(dateTime)) time(dateTime) else "${date(dateTime)}, ${time(dateTime)}"
     }
 
 }
