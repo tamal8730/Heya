@@ -43,7 +43,7 @@ fun ConversationScreen(
         },
         bottomBar = {
             MessageEditText(PaddingValues(16.dp)) {
-                viewModel.sendMessage(it)
+                viewModel.sendMessage(peerUserName, it)
             }
         }
     ) { innerPadding ->
@@ -54,6 +54,11 @@ fun ConversationScreen(
             when (uiState) {
 
                 is ConversationScreenUIState.Empty -> {
+                    Loading()
+                    viewModel.loadMessages(peerUserName)
+                }
+
+                is ConversationScreenUIState.NoMessages -> {
                     EmptyConversation(peerUserName = peerUserName)
                 }
 
@@ -107,7 +112,7 @@ fun ConversationScreen(
                 }
 
                 is ConversationScreenUIState.Loading -> {
-                    LoadingMessages()
+                    Loading()
                 }
 
             }
@@ -117,7 +122,7 @@ fun ConversationScreen(
 }
 
 @Composable
-private fun LoadingMessages() {
+private fun Loading() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

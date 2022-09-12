@@ -1,13 +1,15 @@
 package com.example.heya.feature_chat.view_model
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.heya.feature_chat.model.MessageStatus
 import com.example.heya.feature_chat.repository.chat.ChatRepository
 import com.example.heya.core.util.TimestampFormatter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
 
 sealed class Message {
@@ -17,47 +19,34 @@ sealed class Message {
 }
 
 sealed class ConversationScreenUIState {
+    object Empty : ConversationScreenUIState()
     object Loading : ConversationScreenUIState()
     object Loaded : ConversationScreenUIState()
-    object Empty : ConversationScreenUIState()
+    object NoMessages : ConversationScreenUIState()
     data class Error(val errorMessage: String) : ConversationScreenUIState()
 }
 
-class ConversationScreenViewModelFactory(
-    private val peerUserName: String,
-    private val timestampFormatter: TimestampFormatter,
-    private val chatRepository: ChatRepository,
-) : ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ConversationScreenViewModel(peerUserName, timestampFormatter, chatRepository) as T
-    }
-}
 
-
-class ConversationScreenViewModel(
-    private val peerUserName: String,
-    private val timestampFormatter: TimestampFormatter,
+@HiltViewModel
+class ConversationScreenViewModel @Inject constructor(
+    @Named("chat_bubble_timestamp_formatter") private val timestampFormatter: TimestampFormatter,
     private val messageRepository: ChatRepository
 ) : ViewModel() {
 
-    init {
-        loadMessages()
-    }
-
     private val _uiState =
-        MutableStateFlow<ConversationScreenUIState>(ConversationScreenUIState.Loading)
+        MutableStateFlow<ConversationScreenUIState>(ConversationScreenUIState.Empty)
     val uiState: StateFlow<ConversationScreenUIState> = _uiState.asStateFlow()
 
     private val _messages = MutableStateFlow<List<Message>>(listOf())
     val messages: StateFlow<List<Message>> = _messages.asStateFlow()
 
-    private fun loadMessages() = viewModelScope.launch {
+    fun loadMessages(peerUserName: String) = viewModelScope.launch {
 
         _uiState.value = ConversationScreenUIState.Loading
         val messages = messageRepository.fetchMessages(peerUserName)
 
         if (messages.isEmpty()) {
-            _uiState.value = ConversationScreenUIState.Empty
+            _uiState.value = ConversationScreenUIState.NoMessages
         } else {
 
             _messages.value = messages.map {
@@ -88,7 +77,7 @@ class ConversationScreenViewModel(
         }
     }
 
-    fun sendMessage(message: String) = viewModelScope.launch {
+    fun sendMessage(peerUserName: String, message: String) = viewModelScope.launch {
 
         messageRepository.sendMessage(peerUserName, message).collect {
 

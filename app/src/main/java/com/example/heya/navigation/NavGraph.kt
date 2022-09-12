@@ -1,17 +1,16 @@
 package com.example.heya.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.heya.feature_auth.view.SplashScreen
-import com.example.heya.feature_chat.repository.chat.impl.ChatRepositoryImpl
-import com.example.heya.feature_chat.util.chat_bubble_timestamp_formatter.DateTimeFormatter
+import com.example.heya.feature_auth.view_model.SplashScreenViewModel
 import com.example.heya.feature_chat.view.ConversationScreen
-import com.example.heya.feature_chat.view_model.ConversationScreenViewModelFactory
+import com.example.heya.feature_chat.view_model.ConversationScreenViewModel
 import com.example.heya.feature_find_peer.view.InboxScreen
 import com.example.heya.feature_find_peer.view.UserFinderScreen
 import java.net.URLDecoder
@@ -23,7 +22,7 @@ fun SetupNavGraph(navController: NavHostController) {
 
         composable(route = Screen.Splash.route) {
             SplashScreen(
-                viewModel = viewModel(),
+                viewModel = hiltViewModel<SplashScreenViewModel>(),
                 onNavigateToPeers = {
                     navController.navigate(Screen.Peers.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
@@ -36,7 +35,7 @@ fun SetupNavGraph(navController: NavHostController) {
 
         composable(route = Screen.Peers.route) {
             InboxScreen(
-                viewModel = viewModel(),
+                viewModel = hiltViewModel(),
                 onNavigateToUserSearch = {
                     navController.navigate(Screen.UserSearch.route) {
                         launchSingleTop = true
@@ -57,7 +56,7 @@ fun SetupNavGraph(navController: NavHostController) {
 
         composable(route = Screen.UserSearch.route) {
             UserFinderScreen(
-                viewModel = viewModel(),
+                viewModel = hiltViewModel(),
                 onNavigateToConversation = { peerUserName, peerImageURL ->
                     navController.navigate(
                         Screen.Conversation.getFullPath(
@@ -81,14 +80,8 @@ fun SetupNavGraph(navController: NavHostController) {
             val peerImageURL = backStackEntry.arguments?.getString(Screen.Conversation.argImageURL)
             // TODO: handle the case when arguments are null
             ConversationScreen(
-                viewModel = viewModel(
-                    factory = ConversationScreenViewModelFactory(
-                        peerUserName!!,
-                        DateTimeFormatter(),
-                        ChatRepositoryImpl(),
-                    )
-                ),
-                peerUserName = peerUserName,
+                viewModel = hiltViewModel(),
+                peerUserName = peerUserName!!,
                 peerPhotoURL = URLDecoder.decode(peerImageURL, "UTF-8"),
                 onNavigateToBack = {
                     navController.popBackStack()

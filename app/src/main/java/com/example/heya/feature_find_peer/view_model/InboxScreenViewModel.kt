@@ -3,10 +3,12 @@ package com.example.heya.feature_find_peer.view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.heya.feature_find_peer.repository.peers.PeersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class ChatBuddy(
     val userName: String,
@@ -23,7 +25,9 @@ sealed class InboxScreenUIState {
     object Loading : InboxScreenUIState()
 }
 
-class InboxScreenViewModel(
+
+@HiltViewModel
+class InboxScreenViewModel @Inject constructor(
     private val peersRepository: PeersRepository
 ) : ViewModel() {
 

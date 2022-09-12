@@ -3,10 +3,12 @@ package com.example.heya.feature_find_peer.view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.heya.feature_find_peer.repository.users.UsersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class User(val imageURL: String, val userName: String)
 
@@ -19,7 +21,9 @@ sealed class UsersScreenUIState {
     data class QueriedUserNotFound(val searchQuery: String) : UsersScreenUIState()
 }
 
-class UserSearchScreenViewModel(
+
+@HiltViewModel
+class UserSearchScreenViewModel @Inject constructor(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
 

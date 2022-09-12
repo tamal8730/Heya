@@ -6,11 +6,23 @@ import com.example.heya.core.util.TimestampFormatter
 class DateTimeFormatter : TimestampFormatter {
 
     companion object {
-        private fun pad(num: Int): String = if (num < 10) "0$num" else num.toString()
+        private val months = listOf(
+            "jan",
+            "feb",
+            "mar",
+            "apr",
+            "may",
+            "jun",
+            "jul",
+            "aug",
+            "sep",
+            "oct",
+            "nov",
+            "dec"
+        )
     }
 
-    private fun date(dateTime: DateTime): String =
-        "${pad(dateTime.day)}/${pad(dateTime.month)}/${dateTime.year}"
+    private fun date(dateTime: DateTime): String = "${dateTime.day} ${months[dateTime.month]}"
 
     private fun time(dateTime: DateTime): String {
         val hourIn12Hr =

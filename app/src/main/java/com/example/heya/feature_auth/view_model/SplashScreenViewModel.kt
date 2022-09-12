@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.heya.feature_auth.repository.auth.AuthRepository
 import com.example.heya.feature_auth.repository.auth.LoginResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class SplashScreenUIState {
     object Empty : SplashScreenUIState()
@@ -21,7 +23,9 @@ sealed class LoginEvent {
     object LoggedOut : LoginEvent()
 }
 
-class SplashScreenViewModel(
+
+@HiltViewModel
+class SplashScreenViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
