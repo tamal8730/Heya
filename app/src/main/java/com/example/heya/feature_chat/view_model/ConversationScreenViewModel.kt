@@ -2,10 +2,15 @@ package com.example.heya.feature_chat.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.heya.core.message_listener.MessageListener
+import com.example.heya.core.model.LastMessageModel
+import com.example.heya.core.model.LastMessageStatus
 import com.example.heya.feature_chat.model.MessageStatus
 import com.example.heya.feature_chat.repository.chat.ChatRepository
 import com.example.heya.core.util.TimestampFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +35,10 @@ sealed class ConversationScreenUIState {
 @HiltViewModel
 class ConversationScreenViewModel @Inject constructor(
     @Named("chat_bubble_timestamp_formatter") private val timestampFormatter: TimestampFormatter,
-    private val messageRepository: ChatRepository
+    private val messageRepository: ChatRepository,
+    private val messageListener: MessageListener,
 ) : ViewModel() {
+
 
     private val _uiState =
         MutableStateFlow<ConversationScreenUIState>(ConversationScreenUIState.Empty)
@@ -77,7 +84,7 @@ class ConversationScreenViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(peerUserName: String, message: String) = viewModelScope.launch {
+    fun sendMessage(peerUserName: String, message: String) = CoroutineScope(Dispatchers.IO).launch {
 
         messageRepository.sendMessage(peerUserName, message).collect {
 
@@ -89,9 +96,28 @@ class ConversationScreenViewModel @Inject constructor(
                 MessageStatus.QUEUED -> {
                     _uiState.value = ConversationScreenUIState.Loaded
                     _messages.value = _messages.value + messageToSend
+                    messageListener.notifyLastMessage(
+                        LastMessageModel(
+                            peerUserName,
+                            message,
+                            it.iso8601Timestamp,
+                            0,
+                            LastMessageStatus.QUEUED
+                        )
+                    )
                 }
 
                 MessageStatus.RECEIVED -> {
+
+                    messageListener.notifyLastMessage(
+                        LastMessageModel(
+                            peerUserName,
+                            message,
+                            it.iso8601Timestamp,
+                            0,
+                            LastMessageStatus.RECEIVED
+                        )
+                    )
 
                 }
 
@@ -103,6 +129,18 @@ class ConversationScreenViewModel @Inject constructor(
                         else
                             msg
                     }
+
+                    messageListener.notifyLastMessage(
+                        LastMessageModel(
+                            peerUserName,
+                            message,
+                            it.iso8601Timestamp,
+                            0,
+                            LastMessageStatus.SENT
+                        )
+                    )
+
+
                 }
 
             }

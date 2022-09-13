@@ -55,6 +55,8 @@ fun InboxScreen(
 
                 is InboxScreenUIState.Loaded -> {
 
+                    val buddies = viewModel.chatBuddies.collectAsState().value
+
                     LazyColumn(
                         modifier = Modifier
                             .navigationBarsPadding()
@@ -62,19 +64,17 @@ fun InboxScreen(
                             .fillMaxHeight()
                     ) {
 
-                        val peers = uiState.buddies
-
-                        items(peers.size) { index ->
+                        items(buddies.size) { index ->
                             Peer(
-                                imageURL = peers[index].imageURL,
-                                userName = peers[index].userName,
-                                lastMessage = peers[index].lastMessage,
-                                timestamp = peers[index].timestamp,
-                                unreadCount = peers[index].unreadCount,
+                                imageURL = buddies[index].imageURL,
+                                userName = buddies[index].userName,
+                                lastMessage = buddies[index].lastMessage,
+                                timestamp = buddies[index].timestamp,
+                                unreadCount = buddies[index].unreadCount,
                                 onClick = {
                                     onNavigateToConversation(
-                                        peers[index].userName,
-                                        peers[index].imageURL
+                                        buddies[index].userName,
+                                        buddies[index].imageURL
                                     )
                                 }
                             )
