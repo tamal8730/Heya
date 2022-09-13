@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.heya.core.view.HeyaCircleAvatar
@@ -32,11 +33,13 @@ fun InboxScreen(
     Scaffold(
         topBar = { HeyaTopAppBar(title = "heya") },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToUserSearch) {
-                Icon(
-                    Icons.Filled.Add,
-                    contentDescription = "New conversation"
-                )
+            if (uiState != InboxScreenUIState.Empty && uiState != InboxScreenUIState.Loading) {
+                FloatingActionButton(onClick = onNavigateToUserSearch) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "New conversation"
+                    )
+                }
             }
         }
     ) {
@@ -48,7 +51,7 @@ fun InboxScreen(
             when (uiState) {
 
                 is InboxScreenUIState.Empty -> {
-                    EmptyInbox()
+                    EmptyInbox(onNavigateToUserSearch)
                 }
 
                 is InboxScreenUIState.Error -> {
@@ -96,14 +99,24 @@ fun InboxScreen(
 }
 
 @Composable
-private fun EmptyInbox() {
+private fun EmptyInbox(onStartNewConversation: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Start a conversation with someone by tapping the button below")
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "Start a conversation with someone by tapping the button below",
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(onClick = onStartNewConversation) {
+                Text(text = "Start new conversation")
+            }
+        }
+
     }
 }
 

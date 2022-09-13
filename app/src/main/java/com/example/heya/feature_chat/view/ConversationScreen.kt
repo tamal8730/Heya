@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.heya.core.view.HeyaCircleAvatar
 import com.example.heya.core.view.HeyaTextField
@@ -140,7 +141,7 @@ private fun EmptyConversation(peerUserName: String) {
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Start a conversation with $peerUserName. All messages are end-to-end encrypted. This means even we at heya cannot read your messages")
+        Text(text = "Start a conversation with $peerUserName", textAlign = TextAlign.Center)
     }
 }
 
@@ -167,7 +168,7 @@ private fun Header(
         Spacer(modifier = Modifier.width(8.dp))
         HeyaCircleAvatar(imageURL = imageURL)
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = "@$userName", style = MaterialTheme.typography.h5)
+        Text(text = userName, style = MaterialTheme.typography.h5)
     }
 }
 
