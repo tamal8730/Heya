@@ -19,3 +19,15 @@ compose, mvvm, hilt, navigation compose, flow, coroutines)
   using [Hilt-ViewModel](https://developer.android.com/training/dependency-injection/hilt-jetpack).
 * Dependency injection
   using [Hilt](https://developer.android.com/training/dependency-injection/hilt-android).
+
+## Screenshots
+![Empty Inbox](/docs/images/inbox_empty.jpg?raw=true "Empty Inbox")
+
+![Inbox](/docs/images/inbox.jpg?raw=true "Inbox")
+
+![User Search](/docs/images/user_search.jpg?raw=true "User Search")
+
+![Empty Conversation](/docs/images/conversation_empty.jpg?raw=true "Empty Conversation")
+
+![Conversation](/docs/images/conversation.jpg?raw=true "Conversation")
+
