@@ -1,0 +1,21 @@
+# Heya
+
+A simple one-to-one chat application built using modern android development tools (kotlin, jetpack
+compose, mvvm, hilt, navigation compose, flow, coroutines)
+
+## Built with
+
+* UI built with [Jetpack Compose](https://developer.android.com/jetpack/compose).
+* MVVM architecture with repository pattern.
+* Single activity, with different screens implemented as composables.
+* Navigation between screens
+  using [Navigation Compose](https://developer.android.com/jetpack/compose/navigation).
+* [Flow](https://developer.android.com/kotlin/flow)
+  , [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow)
+  , [SharedFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow)
+  , [coroutines](https://developer.android.com/kotlin/coroutines) for asynchronous operations and UI
+  state update via viewmodels.
+* Dependency Injection for VIewModels
+  using [Hilt-ViewModel](https://developer.android.com/training/dependency-injection/hilt-jetpack).
+* Dependency injection
+  using [Hilt](https://developer.android.com/training/dependency-injection/hilt-android).
