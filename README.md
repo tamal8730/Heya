@@ -20,7 +20,10 @@ compose, mvvm, hilt, navigation compose, flow, coroutines)
 * Dependency injection
   using [Hilt](https://developer.android.com/training/dependency-injection/hilt-android).
 
+![Demo](/docs/images/demo.gif?raw=true "Demo")
+
 ## Screenshots
+
 ![Empty Inbox](/docs/images/inbox_empty.jpg?raw=true "Empty Inbox")
 
 ![Inbox](/docs/images/inbox.jpg?raw=true "Inbox")
