@@ -1,7 +1,7 @@
 package com.example.heya.core.di
 
 import com.example.heya.core.message_listener.MessageListener
-import com.example.heya.core.message_listener.impl.MessageListenerImpl
+import com.example.heya.core.message_listener.impl.FakeMessageListenerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMessageListener(): MessageListener {
-        return MessageListenerImpl()
+        return FakeMessageListenerImpl()
     }
 
 }

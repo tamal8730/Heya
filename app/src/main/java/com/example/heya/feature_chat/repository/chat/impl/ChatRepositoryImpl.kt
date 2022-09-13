@@ -2,8 +2,8 @@ package com.example.heya.feature_chat.repository.chat.impl
 
 import com.example.heya.core.data.db.MockDB
 import com.example.heya.core.util.DateTime
-import com.example.heya.feature_chat.model.MessageModel
-import com.example.heya.feature_chat.model.MessageStatus
+import com.example.heya.core.model.MessageModel
+import com.example.heya.core.model.MessageStatus
 import com.example.heya.feature_chat.repository.chat.ChatRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -16,7 +16,7 @@ class ChatRepositoryImpl : ChatRepository {
         skip: Int,
         limit: Int
     ): List<MessageModel> {
-        delay(1000)
+        delay(500)
         return MockDB.myConversations[peerUserName]?.sortedBy { it.iso8601Timestamp } ?: listOf()
     }
 
@@ -33,7 +33,7 @@ class ChatRepositoryImpl : ChatRepository {
             MessageStatus.QUEUED
         )
 
-        delay(1000)
+        delay(100)
         if (MockDB.messageQueue[peerUserName] == null) {
             MockDB.messageQueue[peerUserName] = LinkedList<MessageModel>()
         }
@@ -43,7 +43,7 @@ class ChatRepositoryImpl : ChatRepository {
     }
 
     private suspend fun dequeueMessage(peerUserName: String): MessageModel? {
-        delay(1000)
+        delay(100)
         return MockDB.messageQueue[peerUserName]?.poll()
     }
 
@@ -55,7 +55,7 @@ class ChatRepositoryImpl : ChatRepository {
         enqueueMessage(peerUserName, message, now)
 
         // send
-        delay(5000)
+        delay(300)
 
         //dequeue
         val sentMessage = dequeueMessage(peerUserName)?.copy(status = MessageStatus.SENT)

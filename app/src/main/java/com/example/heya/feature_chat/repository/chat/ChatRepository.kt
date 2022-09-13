@@ -1,6 +1,6 @@
 package com.example.heya.feature_chat.repository.chat
 
-import com.example.heya.feature_chat.model.MessageModel
+import com.example.heya.core.model.MessageModel
 import kotlinx.coroutines.flow.Flow
 
 interface ChatRepository {

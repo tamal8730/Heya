@@ -1,7 +1,7 @@
 package com.example.heya.core.data.db
 
 import com.example.heya.feature_find_peer.model.PeerModel
-import com.example.heya.feature_chat.model.MessageModel
+import com.example.heya.core.model.MessageModel
 import com.example.heya.feature_find_peer.model.UserModel
 import java.util.*
 

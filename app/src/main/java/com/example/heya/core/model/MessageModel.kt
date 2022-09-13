@@ -1,4 +1,4 @@
-package com.example.heya.feature_chat.model
+package com.example.heya.core.model
 
 enum class MessageStatus {
     SENT, RECEIVED, QUEUED

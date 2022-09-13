@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "300937576361",
+    "project_id": "heya-2e06f",
+    "storage_bucket": "heya-2e06f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300937576361:android:833fce415bab204ca38eb8",
+        "android_client_info": {
+          "package_name": "com.example.heya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300937576361-pin763kt70kmstok57jc92m37ais2u2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.heya",
+            "certificate_hash": "0e47ccbe17c3f0876281b4537c476565b3406115"
+          }
+        },
+        {
+          "client_id": "300937576361-eh2qmf4g6n3n1epq0iket0grhhqq91f7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB25yNdoGD1YyfWxvkT7q4H-gj3t2bIguI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300937576361-eh2qmf4g6n3n1epq0iket0grhhqq91f7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

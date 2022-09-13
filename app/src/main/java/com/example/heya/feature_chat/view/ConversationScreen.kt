@@ -55,6 +55,7 @@ fun ConversationScreen(
 
                 is ConversationScreenUIState.Empty -> {
                     Loading()
+                    viewModel.listenToMessages(peerUserName)
                     viewModel.loadMessages(peerUserName)
                 }
 
