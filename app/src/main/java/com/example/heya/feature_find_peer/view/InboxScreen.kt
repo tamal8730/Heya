@@ -51,7 +51,9 @@ fun InboxScreen(
                     EmptyInbox()
                 }
 
-                is InboxScreenUIState.Error -> TODO()
+                is InboxScreenUIState.Error -> {
+
+                }
 
                 is InboxScreenUIState.Loaded -> {
 

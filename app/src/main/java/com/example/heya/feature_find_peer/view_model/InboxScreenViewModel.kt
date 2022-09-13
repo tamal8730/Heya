@@ -3,6 +3,7 @@ package com.example.heya.feature_find_peer.view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.heya.core.message_listener.MessageListener
+import com.example.heya.core.util.TimestampFormatter
 import com.example.heya.feature_find_peer.repository.peers.PeersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 data class ChatBuddy(
     val userName: String,
@@ -31,6 +33,7 @@ sealed class InboxScreenUIState {
 class InboxScreenViewModel @Inject constructor(
     private val peersRepository: PeersRepository,
     private val messageListener: MessageListener,
+    @Named("last_message_timestamp_formatter") private val timestampFormatter: TimestampFormatter,
 ) : ViewModel() {
 
     private val _chatBuddies = MutableStateFlow<List<ChatBuddy>>(listOf())
@@ -62,7 +65,7 @@ class InboxScreenViewModel @Inject constructor(
                     userName = it.userName,
                     imageURL = it.imageURL,
                     lastMessage = it.lastMessage,
-                    timestamp = it.lastMessageTimestamp,
+                    timestamp = timestampFormatter.format(it.lastMessageTimestamp),
                     unreadCount = it.unreadMessageCount,
                 )
             }
